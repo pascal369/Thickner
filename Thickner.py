@@ -84,7 +84,7 @@ class Ui_Dialog(object):
         
          try:
               base=os.path.dirname(os.path.abspath(__file__))
-              joined_path = os.path.join(base, "Sewage_eqp_data",mypath,pic)
+              joined_path = os.path.join(base, "thickner_data",mypath,pic)
               self.img.setPixmap(QtGui.QPixmap(joined_path)) 
          except:
               pass    
@@ -110,7 +110,7 @@ class Ui_Dialog(object):
          
          try:
              base=os.path.dirname(os.path.abspath(__file__))
-             joined_path = os.path.join(base, "Sewage_eqp_data",mypath,pic)
+             joined_path = os.path.join(base, "thickner_data",mypath,pic)
              self.img.setPixmap(QtGui.QPixmap(joined_path))   
          except:
              pass             
@@ -139,7 +139,7 @@ class Ui_Dialog(object):
                     thicknerAssy_P   
            
             base=os.path.dirname(os.path.abspath(__file__)) 
-            joined_path = os.path.join(base, 'Sewage_eqp_data',key2,mypath,fname) 
+            joined_path = os.path.join(base, 'thickner_data',key2,mypath,fname) 
             print(joined_path)
             doc=App.activeDocument()
             Gui.ActiveDocument.mergeProject(joined_path)

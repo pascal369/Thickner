@@ -164,7 +164,7 @@ class Ui_Dialog(object):
          try:
               mypath='thicknerTool'
               base=os.path.dirname(os.path.abspath(__file__))
-              joined_path = os.path.join(base, "Sewage_eqp_data",mypath,'png',pic)
+              joined_path = os.path.join(base, "thickner_data",mypath,'png',pic)
               self.img.setPixmap(QtGui.QPixmap(joined_path)) 
          except:
               pass                           
@@ -187,33 +187,33 @@ class Ui_Dialog(object):
          #    return
          key2=self.comboBox_Parts.currentText()
          if key2=='centerCage':
-              from sewage_eqp_data.thicknerTool import centerCage
+              from thickner_data.thicknerTool import centerCage
               centerCage
               return
          elif key2=='wellSuport':
               fname='wellSuport.FCStd'
               mypath='thicknerTool'       
          elif key2=='rakeArm':
-              from sewage_eqp_data.thicknerTool import rakeArm
+              from thickner_data.thicknerTool import rakeArm
               rakeArm 
               return
          elif key2=='bufflePlate':
-              from sewage_eqp_data.thicknerTool import bufflePlate
+              from thickner_data.thicknerTool import bufflePlate
          elif key2=='pipeSkimmer':
-              from sewage_eqp_data.thicknerTool import pipeSkimmer
+              from thickner_data.thicknerTool import pipeSkimmer
               pipeSkimmer 
               return
          elif key2=='feedWell':
-              from sewage_eqp_data.thicknerTool import feedWell
+              from thickner_data.thicknerTool import feedWell
               feedWell 
               return
          elif key2=='centerPost' :
               #print('aaaaaaaaaaaaaaaaa')
-              from sewage_eqp_data.thicknerTool import centerPost
+              from thickner_data.thicknerTool import centerPost
               centerPost
               return 
          elif key2=='mainShaft' :
-              from sewage_eqp_data.thicknerTool import mainShaft
+              from thickner_data.thicknerTool import mainShaft
               return 
          elif key2=='mainShaftBrg' :
               fname='mainShaftBrg.FCStd'    
@@ -228,19 +228,19 @@ class Ui_Dialog(object):
               fname='driveUnit.FCStd'    
               mypath='thicknerTool'        
          elif key2=='bridge_S' :
-              from sewage_eqp_data.thicknerTool import bridge
+              from thickner_data.thicknerTool import bridge
               return 
          elif key2=='bridge_P' :
-              from sewage_eqp_data.thicknerTool import bridge_P
+              from thickner_data.thicknerTool import bridge_P
               return    
          elif key2=='rakeBrade' :
               fname='rakeBrade.FCStd'    
               mypath='thicknerTool'      
          elif key2=='skimmerBrade_suspend' :
-              from sewage_eqp_data.thicknerTool import skimmerBrade
+              from thickner_data.thicknerTool import skimmerBrade
               return        
          elif key2=='skimmerBrade' :
-              from sewage_eqp_data.thicknerTool import skimmerBrade_P
+              from thickner_data.thicknerTool import skimmerBrade_P
               return        
          elif key2=='Body_S' or key2=='Body_P' :
               dia=self.comboBox_D.currentText()
@@ -249,7 +249,7 @@ class Ui_Dialog(object):
 
 
          base=os.path.dirname(os.path.abspath(__file__))
-         joined_path = os.path.join(base, 'Sewage_eqp_data',mypath,fname) 
+         joined_path = os.path.join(base, 'thickner_data',mypath,fname) 
          #print(joined_path) 
          Gui.ActiveDocument.mergeProject(joined_path) 
          
