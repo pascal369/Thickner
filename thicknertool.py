@@ -219,8 +219,10 @@ class Ui_Dialog(object):
               fname='mainShaftBrg.FCStd'    
               mypath='thicknerTool'      
          elif key2=='turnBackle' :
-              fname='turnBackle.FCStd'    
-              mypath='thicknerTool'    
+              import turnBackle
+              turnBackle
+              #fname='turnBackle.FCStd'    
+              #mypath='thicknerTool'    
          elif key2=='drivePart' :
               fname='drivePart.FCStd'    
               mypath='thicknerTool'  
