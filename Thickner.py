@@ -9,6 +9,8 @@ from PySide import QtGui
 from PySide import QtUiTools
 from PySide import QtCore
 import importlib
+import FreeCAD
+import csv
 
 Eqp=['Thickner',]
 thickner_type=['suspended_type_thickner','pillar_type_thickner',]
@@ -42,10 +44,40 @@ class Ui_Dialog(object):
         #tool
         self.pushButton2 = QtGui.QPushButton('Tool',Dialog)
         self.pushButton2.setGeometry(QtCore.QRect(180, 85, 100, 22))
+        #import
+        self.pushButton3 = QtGui.QPushButton('Import',Dialog)
+        self.pushButton3.setGeometry(QtCore.QRect(180, 110, 100, 22))
         #img
         self.img = QtGui.QLabel(Dialog)
-        self.img.setGeometry(QtCore.QRect(30, 140, 250, 250))
-        self.img.setAlignment(QtCore.Qt.AlignCenter)
+        self.img.setGeometry(QtCore.QRect(30, 135, 260, 250))
+        self.img.setAlignment(QtCore.Qt.AlignTop)
+
+        #質量計算
+        self.pushButton_m = QtGui.QPushButton('massCulculation',Dialog)
+        self.pushButton_m.setGeometry(QtCore.QRect(30, 280, 100, 23))
+        self.pushButton_m.setObjectName("pushButton")  
+        
+        #質量集計_spreadsheet
+        self.pushButton_m2 = QtGui.QPushButton('massTally_spreadsheet',Dialog)
+        self.pushButton_m2.setGeometry(QtCore.QRect(130, 280, 130, 23))
+        self.pushButton_m2.setObjectName("pushButton")
+        
+        #質量入力
+        self.pushButton_m3 = QtGui.QPushButton('massImput[kg]',Dialog)
+        self.pushButton_m3.setGeometry(QtCore.QRect(30, 330, 100, 23))
+        self.pushButton_m3.setObjectName("pushButton")  
+        self.le_mass = QtGui.QLineEdit(Dialog)
+        self.le_mass.setGeometry(QtCore.QRect(130, 330, 50, 20))
+        self.le_mass.setAlignment(QtCore.Qt.AlignCenter)  
+        self.le_mass.setText('10.0')
+        #密度
+        self.lbl_gr = QtGui.QLabel('SpecificGravity',Dialog)
+        self.lbl_gr.setGeometry(QtCore.QRect(30, 355, 80, 12))
+        self.le_gr = QtGui.QLineEdit(Dialog)
+        self.le_gr.setGeometry(QtCore.QRect(130, 355, 50, 20))
+        self.le_gr.setAlignment(QtCore.Qt.AlignCenter)  
+        self.le_gr.setText('7.85')
+
 
         self.comboBox_Eqp.addItems(Eqp)
         self.comboBox_Eqp.setCurrentIndex(1)
@@ -57,12 +89,117 @@ class Ui_Dialog(object):
         self.comboBox_Type.setCurrentIndex(0) 
 
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL("pressed()"), self.create)
-        QtCore.QObject.connect(self.pushButton2, QtCore.SIGNAL("pressed()"), self.create2)
+        QtCore.QObject.connect(self.pushButton2, QtCore.SIGNAL("pressed()"), self.create2)#tool
+        QtCore.QObject.connect(self.pushButton3, QtCore.SIGNAL("pressed()"), self.setParts)
+
+        QtCore.QObject.connect(self.pushButton_m, QtCore.SIGNAL("pressed()"), self.massCulc)
+        QtCore.QObject.connect(self.pushButton_m2, QtCore.SIGNAL("pressed()"), self.massTally)
+        QtCore.QObject.connect(self.pushButton_m3, QtCore.SIGNAL("pressed()"), self.massImput)
+
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         self.retranslateUi(Dialog)
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", 'thicknerWB', None))
         pass
+    def setParts(self):
+        global Spreadsheet_Assy
+        global rakeAssy
+        global rakeTurnBackle
+        doc = FreeCAD.activeDocument()
+        if doc:
+             group_names = []
+             for obj in doc.Objects:
+                 if obj.Label[:13] == "Spreadsheet_Assy":
+                     Spreadsheet_Assy = obj
+                 elif obj.Label=='rakeAssy':
+                     rakeAssy=obj  
+                 elif obj.Label=='rakeTurnBackle':
+                     rakeTurnBackle=obj      
+    def massImput(self):
+         # 選択したオブジェクトを取得する
+        c00 = Gui.Selection.getSelection()
+        if c00:
+            obj = c00[0]
+        label='mass[kg]'
+        g=float(self.le_mass.text())
+        try:
+            obj.addProperty("App::PropertyFloat", "mass",label)
+            obj.mass=g
+        except:
+            obj.mass=g
+
+    def massCulc(self):
+        # 選択したオブジェクトを取得する
+        c00 = Gui.Selection.getSelection()
+        if c00:
+            obj = c00[0]
+        label='mass[kg]'
+        g0=float(self.le_gr.text())
+        g=obj.Shape.Volume*g0*1000/10**9  
+        try:
+            obj.addProperty("App::PropertyFloat", "mass",label)
+            obj.mass=g
+        except:
+            obj.mass=g
+            pass
+    
+    def massTally(self):#spreadsheet
+        doc = App.ActiveDocument
+        # 新しいスプレッドシートを作成
+        spreadsheet = doc.addObject("Spreadsheet::Sheet", "Parts_List")
+        spreadsheet.Label = "Parts_List"
+        # ヘッダー行を記入
+        headers = ['No',"Name",'Standard', 'Count','Unit[kg]','Mass[kg]']
+        for header in enumerate(headers):
+            spreadsheet.set(f"A{1}", headers[0])
+            spreadsheet.set(f"B{1}", headers[1])
+            spreadsheet.set(f"C{1}", headers[2])
+            spreadsheet.set(f"D{1}", headers[3])
+            spreadsheet.set(f"E{1}", headers[4])
+            spreadsheet.set(f"F{1}", headers[5])
+        # パーツを列挙して情報を書き込む
+        row = 2
+        i=1
+        s=0
+        for i,obj in enumerate(doc.Objects):
+            if  obj.Label[:7]=='Channel' or obj.Label[:5]=='Angle' \
+                or obj.Label[:5]=='Coner' or obj.Label[:7]=='Extrude' or obj.Label[:6]=='Fusion' or obj.Label[:6]=='Corner' or obj.Label[:6]=='Square' \
+                    or obj.Label[:5]=='_basic' or obj.Label[:4]=='Edge' or obj.Label[:3]=='hub' or obj.Label[:7]=='_8_tube'\
+                        or obj.Label[:5]=='plate' or obj.Label[:6]=='keyway' or obj.Label[:4]=='tube' or obj.Label[:5]=='color'\
+                            or obj.Label[:7]=='H_Shape' or obj.Label[:6]=='HShape' or obj.Label[:4]=='mShp' or obj.Label[:4]=='hShp' or obj.Label[:4]=='LShp':
+                pass        
+            else:  
+                try:
+                    spreadsheet.set(f"E{row}", f"{obj.mass:.2f}")  # Unit
+                    #s=obj.mass+s
+                    #if hasattr(obj, "Shape") and obj.Shape.Volume > 0.01:
+                    if hasattr(obj, "mass") and obj.mass > 0.01:
+                        try:
+                            spreadsheet.set(f"A{row}", str(row-1))  # No
+                            spreadsheet.set(f"B{row}", obj.Label)   #Name
+                            try:
+                                spreadsheet.set(f"C{row}", obj.dia)
+                            except:
+                                pass
+                            if obj.Label=='rakeAssy':
+                                n=2
+                            else:
+                                n=1    
+                            spreadsheet.set(f"D{row}", str(n))   # count
+                            g=round(obj.mass*n,2)
+                            spreadsheet.set(f"F{row}", str(g))   # g
+                            s=g+s 
+                            row += 1
+                        except:
+                            print('error')
+                            pass   
+                    else:
+                        pass    
+                except:
+                    pass   
+                spreadsheet.set(f'F{row}',str(s))
+        App.ActiveDocument.recompute()
+        Gui.activeDocument().activeView().viewAxometric()   
 
     def onEqp(self):
          global pic
@@ -113,7 +250,8 @@ class Ui_Dialog(object):
              joined_path = os.path.join(base, "thickner_data",mypath,pic)
              self.img.setPixmap(QtGui.QPixmap(joined_path))   
          except:
-             pass             
+             pass   
+                   
     def create2(self): 
         key2=self.comboBox_Eqp.currentText()
         if key2=='Thickner':
@@ -146,7 +284,6 @@ class Ui_Dialog(object):
 
             App.ActiveDocument.recompute()  
             Gui.ActiveDocument.ActiveView.fitAll()  
-         
 class main():
         d = QtGui.QWidget()
         d.ui = Ui_Dialog()
