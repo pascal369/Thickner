@@ -10,7 +10,7 @@ from PySide import QtUiTools
 from PySide import QtCore
 import importlib
 import FreeCAD
-import csv
+
 
 Eqp=['Thickner',]
 thickner_type=['suspended_type_thickner','pillar_type_thickner',]
@@ -25,28 +25,31 @@ class Ui_Dialog(object):
         
         #Eqp
         self.label_Eqp = QtGui.QLabel('Equipment',Dialog)
-        self.label_Eqp.setGeometry(QtCore.QRect(10, 13, 100, 12))
+        self.label_Eqp.setGeometry(QtCore.QRect(10, 8, 100, 12))
+        self.label_Eqp.setStyleSheet("color: gray;")
         self.comboBox_Eqp = QtGui.QComboBox(Dialog)
         self.comboBox_Eqp.setGeometry(QtCore.QRect(80, 10, 200, 22))
         #Type
         self.label_Type = QtGui.QLabel('Type',Dialog)
         self.label_Type.setGeometry(QtCore.QRect(10, 38, 100, 12))
+        self.label_Type.setStyleSheet("color: gray;") 
         self.comboBox_Type = QtGui.QComboBox(Dialog)
         self.comboBox_Type.setGeometry(QtCore.QRect(80, 35, 200, 22))
         #Series
         self.label_Series = QtGui.QLabel('Series',Dialog)
-        self.label_Series.setGeometry(QtCore.QRect(10, 63, 100, 12))
+        self.label_Series.setGeometry(QtCore.QRect(10, 73, 100, 12))
+        self.label_Series.setStyleSheet("color: gray;")
         self.comboBox_Series = QtGui.QComboBox(Dialog)
         self.comboBox_Series.setGeometry(QtCore.QRect(80, 60, 200, 22))
         #実行
         self.pushButton = QtGui.QPushButton('Educution',Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(80, 85, 100, 22))
+        self.pushButton.setGeometry(QtCore.QRect(80, 90, 100, 22))
         #tool
         self.pushButton2 = QtGui.QPushButton('Tool',Dialog)
-        self.pushButton2.setGeometry(QtCore.QRect(180, 85, 100, 22))
+        self.pushButton2.setGeometry(QtCore.QRect(180, 90, 100, 22))
         #import
         self.pushButton3 = QtGui.QPushButton('Import',Dialog)
-        self.pushButton3.setGeometry(QtCore.QRect(180, 110, 100, 22))
+        self.pushButton3.setGeometry(QtCore.QRect(180, 115, 100, 22))
         #img
         self.img = QtGui.QLabel(Dialog)
         self.img.setGeometry(QtCore.QRect(30, 145, 260, 250))
@@ -175,9 +178,11 @@ class Ui_Dialog(object):
            
             base=os.path.dirname(os.path.abspath(__file__)) 
             joined_path = os.path.join(base, 'thickner_data',key2,mypath,fname) 
-            print(joined_path)
-            doc=App.activeDocument()
-            Gui.ActiveDocument.mergeProject(joined_path)
+            try:
+                Gui.ActiveDocument.mergeProject(joined_path)
+            except:
+                doc=App.newDocument()
+                Gui.ActiveDocument.mergeProject(joined_path)
 
             App.ActiveDocument.recompute()  
             Gui.ActiveDocument.ActiveView.fitAll()  
