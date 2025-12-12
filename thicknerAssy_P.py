@@ -23,6 +23,7 @@ class Ui_Dialog(object):
         #Series
         self.label_Series = QtGui.QLabel('Series',Dialog)
         self.label_Series.setGeometry(QtCore.QRect(10, 13, 100, 12))
+        self.label_Series.setStyleSheet("color: gray;")
         self.comboBox_Series = QtGui.QComboBox(Dialog)
         self.comboBox_Series.setGeometry(QtCore.QRect(80, 10, 200, 22))
         #Create
@@ -34,6 +35,7 @@ class Ui_Dialog(object):
         self.pushButton.setGeometry(QtCore.QRect(180, 35, 100, 22))
         #spinBox
         self.label_spin=QtGui.QLabel('Animation',Dialog)
+        self.label_spin.setStyleSheet("color: gray;")
         self.label_spin.setGeometry(QtCore.QRect(10, 60, 150, 22))
         self.spinBox=QtGui.QSpinBox(Dialog)
         self.spinBox.setGeometry(80, 60, 50, 30)

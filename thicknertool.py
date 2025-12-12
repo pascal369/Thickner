@@ -26,28 +26,31 @@ class Ui_Dialog(object):
         #type
         self.label_Type = QtGui.QLabel('Type',Dialog)
         self.label_Type.setGeometry(QtCore.QRect(10, 13, 100, 12))
+        self.label_Type.setStyleSheet("color: gray;")
         self.comboBox_Type = QtGui.QComboBox(Dialog)
         self.comboBox_Type.setGeometry(QtCore.QRect(130, 10, 150, 22))
         #Parts
         self.label_Parts = QtGui.QLabel('Parts',Dialog)
         self.label_Parts.setGeometry(QtCore.QRect(10, 38, 100, 12))
+        self.label_Parts.setStyleSheet("color: gray;")
         self.comboBox_Parts = QtGui.QComboBox(Dialog)
         self.comboBox_Parts.setGeometry(QtCore.QRect(130, 35, 150, 22))
         #tankDia
         self.label_D = QtGui.QLabel('tankDia[mm]',Dialog)
         self.label_D.setGeometry(QtCore.QRect(10, 63, 80, 12))
+        self.label_D.setStyleSheet("color: gray;")
         self.comboBox_D = QtGui.QComboBox(Dialog)
         self.comboBox_D.setGeometry(QtCore.QRect(130, 60, 150, 22))
 
         #execution
         self.pushButton2 = QtGui.QPushButton('Execution',Dialog)
-        self.pushButton2.setGeometry(QtCore.QRect(60, 85, 70, 22))
+        self.pushButton2.setGeometry(QtCore.QRect(10, 85, 70, 22))
         #update
         self.pushButton1 = QtGui.QPushButton('upDate',Dialog)
-        self.pushButton1.setGeometry(QtCore.QRect(140, 85, 60, 22))
+        self.pushButton1.setGeometry(QtCore.QRect(100, 85, 60, 22))
         #importData
         self.pushButton3 = QtGui.QPushButton('ImportData',Dialog)
-        self.pushButton3.setGeometry(QtCore.QRect(210, 85, 70, 22))
+        self.pushButton3.setGeometry(QtCore.QRect(190, 85, 70, 22))
         #img
         self.img = QtGui.QLabel(Dialog)
         self.img.setGeometry(QtCore.QRect(30, 110, 250, 250))
@@ -252,10 +255,13 @@ class Ui_Dialog(object):
 
          base=os.path.dirname(os.path.abspath(__file__))
          joined_path = os.path.join(base, 'thickner_data',mypath,fname) 
-         #print(joined_path) 
-         Gui.ActiveDocument.mergeProject(joined_path) 
-         
-         Gui.SendMsgToActiveView("ViewFit")
+         try:
+             Gui.ActiveDocument.mergeProject(joined_path)
+         except:
+             doc=App.newDocument()
+             Gui.ActiveDocument.mergeProject(joined_path)
+         App.ActiveDocument.recompute()  
+         Gui.ActiveDocument.ActiveView.fitAll()
 
 class main():
         d = QtGui.QWidget()
