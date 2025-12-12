@@ -35,12 +35,14 @@ class Ui_Dialog(object):
         #tankDia
         self.label_D = QtGui.QLabel('tankDia',Dialog)
         self.label_D.setGeometry(QtCore.QRect(10, 13, 100, 22))
+        self.label_D.setStyleSheet("color: gray;")
         self.comboBox_D = QtGui.QComboBox(Dialog)
         self.comboBox_D.setGeometry(QtCore.QRect(140, 10, 100, 22))
         
         #hight
         self.label_hw = QtGui.QLabel('hight',Dialog)
         self.label_hw.setGeometry(QtCore.QRect(10, 38, 100, 22))
+        self.label_hw.setStyleSheet("color: gray;")
         self.le_hw = QtGui.QLineEdit('500',Dialog)
         self.le_hw.setGeometry(QtCore.QRect(140, 35, 100, 20))
         self.le_hw.setAlignment(QtCore.Qt.AlignCenter)
@@ -64,7 +66,7 @@ class Ui_Dialog(object):
         self.retranslateUi(Dialog)
         
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "feedWell", None))
+        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Bridge", None))
         
     def read_data(self):
          #return
@@ -95,8 +97,13 @@ class Ui_Dialog(object):
          fname='bridge_s.FCStd'
          base=os.path.dirname(os.path.abspath(__file__))
          joined_path = os.path.join(base, fname) 
-         Gui.ActiveDocument.mergeProject(joined_path)
-         return
+         try:
+             Gui.ActiveDocument.mergeProject(joined_path)
+         except:
+             doc=App.newDocument()
+             Gui.ActiveDocument.mergeProject(joined_path)
+         App.ActiveDocument.recompute()  
+         Gui.ActiveDocument.ActiveView.fitAll()
 
 class main():
         d = QtGui.QWidget()

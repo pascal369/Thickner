@@ -43,23 +43,27 @@ class Ui_Dialog(object):
         #主材
         self.label_mShp = QtGui.QLabel('主材 L-',Dialog)
         self.label_mShp.setGeometry(QtCore.QRect(10, 13, 100, 12))
+        self.label_mShp.setStyleSheet("color: gray;")
         self.comboBox_mShp = QtGui.QComboBox(Dialog)
         self.comboBox_mShp.setGeometry(QtCore.QRect(110, 10, 100, 22))
 
         #ラチス材
         self.label_LShp = QtGui.QLabel('ラチス材 L-',Dialog)
         self.label_LShp.setGeometry(QtCore.QRect(10, 38, 100, 12))
+        self.label_LShp.setStyleSheet("color: gray;")
         self.comboBox_LShp = QtGui.QComboBox(Dialog)
         self.comboBox_LShp.setGeometry(QtCore.QRect(110, 35, 100, 22))
         #横架材
         self.label_hShp = QtGui.QLabel('横架材 [-',Dialog)
         self.label_hShp.setGeometry(QtCore.QRect(10, 63, 100, 12))
+        self.label_hShp.setStyleSheet("color: gray;")
         self.comboBox_hShp = QtGui.QComboBox(Dialog)
         self.comboBox_hShp.setGeometry(QtCore.QRect(110, 60, 100, 22))
 
         #ケージ幅
         self.label_W = QtGui.QLabel('ケージ幅W',Dialog)
         self.label_W.setGeometry(QtCore.QRect(10, 88, 100, 22))
+        self.label_W.setStyleSheet("color: gray;")
         self.le_W = QtGui.QLineEdit('1800',Dialog)
         self.le_W.setGeometry(QtCore.QRect(110, 85, 50, 20))
         self.le_W.setAlignment(QtCore.Qt.AlignCenter)
@@ -67,6 +71,7 @@ class Ui_Dialog(object):
         #ケージ長
         self.label_L = QtGui.QLabel('ケージ長L',Dialog)
         self.label_L.setGeometry(QtCore.QRect(10, 113, 100, 22))
+        self.label_L.setStyleSheet("color: gray;")
         self.le_L = QtGui.QLineEdit('4900',Dialog)
         self.le_L.setGeometry(QtCore.QRect(110, 110, 50, 20))
         self.le_L.setAlignment(QtCore.Qt.AlignCenter)
@@ -74,6 +79,7 @@ class Ui_Dialog(object):
         #ガセット厚
         self.label_Gt = QtGui.QLabel('ガセット厚',Dialog)
         self.label_Gt.setGeometry(QtCore.QRect(10, 138, 100, 22))
+        self.label_Gt.setStyleSheet("color: gray;")
         self.le_Gt = QtGui.QLineEdit('6',Dialog)
         self.le_Gt.setGeometry(QtCore.QRect(110, 135, 50, 20))
         self.le_Gt.setAlignment(QtCore.Qt.AlignCenter)
@@ -81,6 +87,7 @@ class Ui_Dialog(object):
         #ガセット寸法a
         self.label_Gta = QtGui.QLabel('ガセット a',Dialog)
         self.label_Gta.setGeometry(QtCore.QRect(10, 163, 100, 22))
+        self.label_Gta.setStyleSheet("color: gray;")
         self.le_Gta = QtGui.QLineEdit('6',Dialog)
         self.le_Gta.setGeometry(QtCore.QRect(110, 160, 50, 20))
         self.le_Gta.setAlignment(QtCore.Qt.AlignCenter)
@@ -88,6 +95,7 @@ class Ui_Dialog(object):
         #レーキ幅
         self.label_rw = QtGui.QLabel('rakeWidth',Dialog)
         self.label_rw.setGeometry(QtCore.QRect(10, 188, 100, 22))
+        self.label_rw.setStyleSheet("color: gray;")
         self.le_rw = QtGui.QLineEdit('800',Dialog)
         self.le_rw.setGeometry(QtCore.QRect(110, 185, 50, 20))
         self.le_rw.setAlignment(QtCore.Qt.AlignCenter)
@@ -101,15 +109,13 @@ class Ui_Dialog(object):
         self.pushButton2.setGeometry(QtCore.QRect(140, 210, 60, 22))
         #データ読み込み
         self.pushButton3 = QtGui.QPushButton('Import Data',Dialog)
-        self.pushButton3.setGeometry(QtCore.QRect(50, 235, 150, 22))
+        self.pushButton3.setGeometry(QtCore.QRect(50, 235, 180, 22))
         #図形
         self.label_6 = QtGui.QLabel(Dialog)
         self.label_6.setGeometry(QtCore.QRect(35, 260, 235, 200))
         self.label_6.setText("")
         self.label_6.setAlignment(QtCore.Qt.AlignCenter)
         self.label_6.setObjectName("label_6")
-        
-
 
         self.comboBox_mShp.addItems(AShp_data)
         self.comboBox_mShp.setEditable(True)
@@ -119,8 +125,6 @@ class Ui_Dialog(object):
 
         self.comboBox_hShp.addItems(CShp_data)
         self.comboBox_hShp.setEditable(True)
-
-
 
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL("pressed()"), self.create)
         QtCore.QObject.connect(self.pushButton2, QtCore.SIGNAL("pressed()"), self.update)
@@ -159,7 +163,6 @@ class Ui_Dialog(object):
                          hShp=obj     
                      elif obj.Label=='Spreadsheet_centerCage':
                          spreadsheet = obj
-
 
                          self.comboBox_mShp.setCurrentText(spreadsheet.getContents('mShp')[1:])
                          self.comboBox_LShp.setCurrentText(spreadsheet.getContents('LShp')[1:])
@@ -262,7 +265,13 @@ class Ui_Dialog(object):
          fname='centerCage.FCStd'
          base=os.path.dirname(os.path.abspath(__file__))
          joined_path = os.path.join(base, fname) 
-         Gui.ActiveDocument.mergeProject(joined_path)
+         try:
+             Gui.ActiveDocument.mergeProject(joined_path)
+         except:
+             doc=App.newDocument()
+             Gui.ActiveDocument.mergeProject(joined_path)
+         App.ActiveDocument.recompute()  
+         Gui.ActiveDocument.ActiveView.fitAll()
  
 class main():
         d = QtGui.QWidget()

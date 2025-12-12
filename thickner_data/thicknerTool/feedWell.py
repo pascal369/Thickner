@@ -44,6 +44,7 @@ class Ui_Dialog(object):
         #tankDia
         self.label_D = QtGui.QLabel('tankDia',Dialog)
         self.label_D.setGeometry(QtCore.QRect(10, 13, 100, 22))
+        self.label_D.setStyleSheet("color: gray;")
         self.spinBoxL=QtGui.QSpinBox(Dialog)
         self.spinBoxL.setGeometry(140, 10, 100, 50)
         self.spinBoxL.setMinimum(1000)  # 最小値
@@ -54,6 +55,7 @@ class Ui_Dialog(object):
         #depth of water
         self.label_hw = QtGui.QLabel('depth of water hw',Dialog)
         self.label_hw.setGeometry(QtCore.QRect(10, 63, 100, 22))
+        self.label_hw.setStyleSheet("color: gray;")
         self.le_hw = QtGui.QLineEdit(Dialog)
         self.le_hw.setGeometry(QtCore.QRect(140, 60, 100, 20))
         self.le_hw.setAlignment(QtCore.Qt.AlignCenter)
@@ -61,6 +63,7 @@ class Ui_Dialog(object):
         #ブラケット高 h1
         self.label_h1 = QtGui.QLabel('bracketHight',Dialog)
         self.label_h1.setGeometry(QtCore.QRect(10, 88, 100, 22))
+        self.label_h1.setStyleSheet("color: gray;")
         self.le_h1 = QtGui.QLineEdit(Dialog)
         self.le_h1.setGeometry(QtCore.QRect(140, 85, 100, 20))
         self.le_h1.setAlignment(QtCore.Qt.AlignCenter)
@@ -68,6 +71,7 @@ class Ui_Dialog(object):
         #ブラケット角 ba
         self.label_ba = QtGui.QLabel('bracketAngle',Dialog)
         self.label_ba.setGeometry(QtCore.QRect(10, 113, 100, 22))
+        self.label_ba.setStyleSheet("color: gray;")
         self.le_ba = QtGui.QLineEdit(Dialog)
         self.le_ba.setGeometry(QtCore.QRect(140, 110, 100, 20))
         self.le_ba.setAlignment(QtCore.Qt.AlignCenter)
@@ -76,6 +80,7 @@ class Ui_Dialog(object):
         #梁成 H0
         self.label_H0 = QtGui.QLabel('beamHight',Dialog)
         self.label_H0.setGeometry(QtCore.QRect(10, 138, 100, 22))
+        self.label_H0.setStyleSheet("color: gray;")
         self.spinBoxH0=QtGui.QSpinBox(Dialog)
         self.spinBoxH0.setGeometry(140, 133, 100, 50)
         self.spinBoxH0.setMinimum(300)  # 最小値
@@ -86,11 +91,13 @@ class Ui_Dialog(object):
         #弦材 chord member
         self.label_GL = QtGui.QLabel('chordMember',Dialog)
         self.label_GL.setGeometry(QtCore.QRect(10, 188, 100, 22))
+        self.label_GL.setStyleSheet("color: gray;")
         self.comboBox_GL = QtGui.QComboBox(Dialog)
         self.comboBox_GL.setGeometry(QtCore.QRect(140, 185, 100, 22))
         #ラチス材 Lattice member
         self.label_Ls = QtGui.QLabel('latticeMember',Dialog)
         self.label_Ls.setGeometry(QtCore.QRect(10, 213, 100, 22))
+        self.label_Ls.setStyleSheet("color: gray;")
         self.comboBox_Ls = QtGui.QComboBox(Dialog)
         self.comboBox_Ls.setGeometry(QtCore.QRect(140, 210, 100, 22))
         

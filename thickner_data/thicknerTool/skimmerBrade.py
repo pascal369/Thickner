@@ -16,11 +16,13 @@ class Ui_Dialog(object):
         #槽径
         self.label_D = QtGui.QLabel('tankDia',Dialog)
         self.label_D.setGeometry(QtCore.QRect(10, 13, 100, 12))
+        self.label_D.setStyleSheet("color: gray;")
         self.comboBox_D = QtGui.QComboBox(Dialog)
         self.comboBox_D.setGeometry(QtCore.QRect(140, 10, 80, 22))
         #バッフル位置 
         self.label_bf = QtGui.QLabel('buffle Position',Dialog)
         self.label_bf.setGeometry(QtCore.QRect(10, 38, 100, 12))
+        self.label_bf.setStyleSheet("color: gray;")
         self.le_bf = QtGui.QLineEdit('1750',Dialog)
         self.le_bf.setGeometry(QtCore.QRect(140, 35, 80, 20))
         self.le_bf.setAlignment(QtCore.Qt.AlignCenter)
@@ -28,12 +30,14 @@ class Ui_Dialog(object):
         #ブレード数
         self.label_n = QtGui.QLabel('nomber Of brade',Dialog)
         self.label_n.setGeometry(QtCore.QRect(10, 63, 100, 12))
+        self.label_n.setStyleSheet("color: gray;")
         self.le_n = QtGui.QLineEdit('5',Dialog)
         self.le_n.setGeometry(QtCore.QRect(140, 60, 80, 20))
         self.le_n.setAlignment(QtCore.Qt.AlignCenter)
         #ブレード幅
         self.label_bw = QtGui.QLabel('breade width',Dialog)
         self.label_bw.setGeometry(QtCore.QRect(10, 88, 100, 12))
+        self.label_bw.setStyleSheet("color: gray;")
         self.le_bw = QtGui.QLineEdit('700',Dialog)
         self.le_bw.setGeometry(QtCore.QRect(140, 85, 80, 20))
         self.le_bw.setAlignment(QtCore.Qt.AlignCenter)
@@ -45,7 +49,7 @@ class Ui_Dialog(object):
         self.pushButton2.setGeometry(QtCore.QRect(140, 130, 80, 22))
         #データ読み込み
         self.pushButton3 = QtGui.QPushButton('Import Data',Dialog)
-        self.pushButton3.setGeometry(QtCore.QRect(50, 155, 170, 22))
+        self.pushButton3.setGeometry(QtCore.QRect(50, 155, 180, 22))
 
         self.comboBox_D.addItems(tank_data)
 
@@ -90,7 +94,13 @@ class Ui_Dialog(object):
         
         base=os.path.dirname(os.path.abspath(__file__))
         joined_path = os.path.join(base, fname) 
-        Gui.ActiveDocument.mergeProject(joined_path)
+        try:
+            Gui.ActiveDocument.mergeProject(joined_path)
+        except:
+            doc=App.newDocument()
+            Gui.ActiveDocument.mergeProject(joined_path)
+        App.ActiveDocument.recompute()  
+        Gui.ActiveDocument.ActiveView.fitAll()
 
 class main():
         d = QtGui.QWidget()

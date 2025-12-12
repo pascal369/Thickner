@@ -18,17 +18,20 @@ class Ui_Dialog(object):
         #槽径
         self.label_D = QtGui.QLabel('tankDia',Dialog)
         self.label_D.setGeometry(QtCore.QRect(10, 13, 100, 12))
+        self.label_D.setStyleSheet("color: gray;")
         self.comboBox_D = QtGui.QComboBox(Dialog)
         self.comboBox_D.setGeometry(QtCore.QRect(110, 10, 100, 22))
         #越流水路幅
         self.label_W = QtGui.QLabel('waterWay Width',Dialog)
         self.label_W.setGeometry(QtCore.QRect(10, 38, 100, 12))
+        self.label_W.setStyleSheet("color: gray;")
         self.le_W = QtGui.QLineEdit('450',Dialog)
         self.le_W.setGeometry(QtCore.QRect(110, 35, 50, 20))
         self.le_W.setAlignment(QtCore.Qt.AlignCenter)
         #サポート数
         self.label_SN = QtGui.QLabel('nober of Support',Dialog)
         self.label_SN.setGeometry(QtCore.QRect(10, 63, 100, 12))
+        self.label_SN.setStyleSheet("color: gray;")
         self.le_SN = QtGui.QLineEdit('12',Dialog)
         self.le_SN.setGeometry(QtCore.QRect(110, 60, 50, 20))
         self.le_SN.setAlignment(QtCore.Qt.AlignCenter)
@@ -40,7 +43,7 @@ class Ui_Dialog(object):
         self.pushButton2.setGeometry(QtCore.QRect(140, 85, 60, 22))
         #データ読み込み
         self.pushButton3 = QtGui.QPushButton('Import Data',Dialog)
-        self.pushButton3.setGeometry(QtCore.QRect(50, 110, 150, 22))
+        self.pushButton3.setGeometry(QtCore.QRect(50, 110, 180, 22))
 
         self.comboBox_D.addItems(tank_data)
         self.comboBox_D.setEditable(True)
@@ -84,7 +87,13 @@ class Ui_Dialog(object):
         fname='bufflePlate.FCStd'
         base=os.path.dirname(os.path.abspath(__file__))
         joined_path = os.path.join(base, fname) 
-        Gui.ActiveDocument.mergeProject(joined_path)
+        try:
+             Gui.ActiveDocument.mergeProject(joined_path)
+        except:
+            doc=App.newDocument()
+            Gui.ActiveDocument.mergeProject(joined_path)
+        App.ActiveDocument.recompute()  
+        Gui.ActiveDocument.ActiveView.fitAll()
 
 class main():
         d = QtGui.QWidget()

@@ -33,24 +33,28 @@ class Ui_Dialog(object):
         #pipeSkimmerLength L
         self.label_L = QtGui.QLabel('fullLength',Dialog)
         self.label_L.setGeometry(QtCore.QRect(10, 13, 100, 22))
+        self.label_L.setStyleSheet("color: gray;")
         self.le_L = QtGui.QLineEdit('6500',Dialog)
         self.le_L.setGeometry(QtCore.QRect(140, 10, 60, 20))
         self.le_L.setAlignment(QtCore.Qt.AlignCenter)
         #Opening Length
         self.label_L3 = QtGui.QLabel('weirLength l3',Dialog)
         self.label_L3.setGeometry(QtCore.QRect(10, 38, 100, 22))
+        self.label_L3.setStyleSheet("color: gray;")
         self.le_L3 = QtGui.QLineEdit('1000',Dialog)
         self.le_L3.setGeometry(QtCore.QRect(140, 35, 60, 20))
         self.le_L3.setAlignment(QtCore.Qt.AlignCenter)
         #noberOfweir
         self.label_n0 = QtGui.QLabel('noberOfweir n0',Dialog)
         self.label_n0.setGeometry(QtCore.QRect(10, 63, 100, 22))
+        self.label_n0.setStyleSheet("color: gray;")
         self.le_n0 = QtGui.QLineEdit('1000',Dialog)
         self.le_n0.setGeometry(QtCore.QRect(140, 60, 60, 20))
         self.le_n0.setAlignment(QtCore.Qt.AlignCenter)
         #innerPipe Length L1
         self.label_L1 = QtGui.QLabel('innerPipe Length l1',Dialog)
         self.label_L1.setGeometry(QtCore.QRect(10, 88, 100, 22))
+        self.label_L1.setStyleSheet("color: gray;")
         self.le_L1 = QtGui.QLineEdit('450',Dialog)
         self.le_L1.setGeometry(QtCore.QRect(140, 85, 60, 20))
         self.le_L1.setAlignment(QtCore.Qt.AlignCenter)
@@ -58,18 +62,21 @@ class Ui_Dialog(object):
         #開閉機 L2
         self.label_L2 = QtGui.QLabel('open/closeMachine l2',Dialog)
         self.label_L2.setGeometry(QtCore.QRect(10, 113, 120, 22))
+        self.label_L2.setStyleSheet("color: gray;")
         self.le_L2 = QtGui.QLineEdit(Dialog)
         self.le_L2.setGeometry(QtCore.QRect(140, 110, 60, 20))
         self.le_L2.setAlignment(QtCore.Qt.AlignCenter)
         #開閉機 h2
         self.label_h2 = QtGui.QLabel('open/closeMachine h2',Dialog)
         self.label_h2.setGeometry(QtCore.QRect(10, 138, 120, 22))
+        self.label_h2.setStyleSheet("color: gray;")
         self.le_h2 = QtGui.QLineEdit(Dialog)
         self.le_h2.setGeometry(QtCore.QRect(140, 135, 60, 20))
         self.le_h2.setAlignment(QtCore.Qt.AlignCenter)
         #軸受位置 L4
         self.label_L4 = QtGui.QLabel('brgPosition',Dialog)
         self.label_L4.setGeometry(QtCore.QRect(10, 163, 100, 22))
+        self.label_L4.setStyleSheet("color: gray;")
         self.le_L4 = QtGui.QLineEdit(Dialog)
         self.le_L4.setGeometry(QtCore.QRect(140, 160, 60, 20))
         self.le_L4.setAlignment(QtCore.Qt.AlignCenter)
@@ -87,6 +94,7 @@ class Ui_Dialog(object):
         #spinBox
         self.label_spin=QtGui.QLabel('Animation',Dialog)
         self.label_spin.setGeometry(QtCore.QRect(10, 235, 150, 22))
+        self.label_spin.setStyleSheet("color: gray;")
         self.spinBox=QtGui.QSpinBox(Dialog)
         self.spinBox.setGeometry(80, 235, 50, 30)
         self.spinBox.setAlignment(QtCore.Qt.AlignCenter)
@@ -185,8 +193,13 @@ class Ui_Dialog(object):
          fname='pipeSkimmer.FCStd'
          base=os.path.dirname(os.path.abspath(__file__))
          joined_path = os.path.join(base, fname) 
-         Gui.ActiveDocument.mergeProject(joined_path)
-         return
+         try:
+             Gui.ActiveDocument.mergeProject(joined_path)
+         except:
+             doc=App.newDocument()
+             Gui.ActiveDocument.mergeProject(joined_path)
+         App.ActiveDocument.recompute()  
+         Gui.ActiveDocument.ActiveView.fitAll()
 
 class main():
         d = QtGui.QWidget()

@@ -40,12 +40,14 @@ class Ui_Dialog(object):
         #アーム成
         self.label_H = QtGui.QLabel('armHight',Dialog)
         self.label_H.setGeometry(QtCore.QRect(10, 13, 100, 22))
+        self.label_H.setStyleSheet("color: gray;")
         self.le_H = QtGui.QLineEdit('800',Dialog)
         self.le_H.setGeometry(QtCore.QRect(110, 10, 50, 20))
         self.le_H.setAlignment(QtCore.Qt.AlignCenter)
         #アーム立ち上がり h1
         self.label_h1 = QtGui.QLabel('rising h1',Dialog)
         self.label_h1.setGeometry(QtCore.QRect(10, 38, 100, 22))
+        self.label_h1.setStyleSheet("color: gray;")
         self.le_h1 = QtGui.QLineEdit('300',Dialog)
         self.le_h1.setGeometry(QtCore.QRect(110, 35, 50, 20))
         self.le_h1.setAlignment(QtCore.Qt.AlignCenter)
@@ -53,6 +55,7 @@ class Ui_Dialog(object):
         #アーム長
         self.label_L = QtGui.QLabel('armLength',Dialog)
         self.label_L.setGeometry(QtCore.QRect(10, 63, 100, 22))
+        self.label_L.setStyleSheet("color: gray;")
         self.le_L = QtGui.QLineEdit('6500',Dialog)
         self.le_L.setGeometry(QtCore.QRect(110, 60, 50, 20))
         self.le_L.setAlignment(QtCore.Qt.AlignCenter)
@@ -60,6 +63,7 @@ class Ui_Dialog(object):
         #アーム幅
         self.label_W = QtGui.QLabel('armWidth',Dialog)
         self.label_W.setGeometry(QtCore.QRect(10, 88, 100, 22))
+        self.label_W.setStyleSheet("color: gray;")
         self.le_W = QtGui.QLineEdit('800',Dialog)
         self.le_W.setGeometry(QtCore.QRect(110, 85, 50, 20))
         self.le_W.setAlignment(QtCore.Qt.AlignCenter)
@@ -67,6 +71,7 @@ class Ui_Dialog(object):
         #ブレード位置
         self.label_br = QtGui.QLabel('bradePosition',Dialog)
         self.label_br.setGeometry(QtCore.QRect(10, 113, 100, 22))
+        self.label_br.setStyleSheet("color: gray;")
         self.le_br = QtGui.QLineEdit('800',Dialog)
         self.le_br.setGeometry(QtCore.QRect(110, 110, 50, 20))
         self.le_br.setAlignment(QtCore.Qt.AlignCenter)
@@ -74,6 +79,7 @@ class Ui_Dialog(object):
         #ブレード間隔
         self.label_brs = QtGui.QLabel('bradeSpasing',Dialog)
         self.label_brs.setGeometry(QtCore.QRect(10, 138, 100, 22))
+        self.label_brs.setStyleSheet("color: gray;")
         self.le_brs = QtGui.QLineEdit('1000',Dialog)
         self.le_brs.setGeometry(QtCore.QRect(110, 135, 50, 20))
         self.le_brs.setAlignment(QtCore.Qt.AlignCenter)
@@ -81,6 +87,7 @@ class Ui_Dialog(object):
         #ブレード数
         self.label_n0 = QtGui.QLabel('nomberOfbrade',Dialog)
         self.label_n0.setGeometry(QtCore.QRect(10, 163, 100, 22))
+        self.label_n0.setStyleSheet("color: gray;")
         self.le_n0 = QtGui.QLineEdit('5',Dialog)
         self.le_n0.setGeometry(QtCore.QRect(110, 160, 50, 20))
         self.le_n0.setAlignment(QtCore.Qt.AlignCenter)
@@ -93,7 +100,7 @@ class Ui_Dialog(object):
         self.pushButton2.setGeometry(QtCore.QRect(140, 185, 60, 22))
         #データ読み込み
         self.pushButton3 = QtGui.QPushButton('Import Data',Dialog)
-        self.pushButton3.setGeometry(QtCore.QRect(50, 210, 150, 22))
+        self.pushButton3.setGeometry(QtCore.QRect(50, 210, 180, 22))
         #図形
         self.label_6 = QtGui.QLabel(Dialog)
         self.label_6.setGeometry(QtCore.QRect(35, 235, 200, 200))
@@ -197,7 +204,13 @@ class Ui_Dialog(object):
          fname='rakeAssy.FCStd'
          base=os.path.dirname(os.path.abspath(__file__))
          joined_path = os.path.join(base, fname) 
-         Gui.ActiveDocument.mergeProject(joined_path)
+         try:
+             Gui.ActiveDocument.mergeProject(joined_path)
+         except:
+             doc=App.newDocument()
+             Gui.ActiveDocument.mergeProject(joined_path)
+         App.ActiveDocument.recompute()  
+         Gui.ActiveDocument.ActiveView.fitAll()
 
 class main():
         d = QtGui.QWidget()

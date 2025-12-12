@@ -32,41 +32,45 @@ class Ui_Dialog(object):
                 
         #topHight
         self.label_th = QtGui.QLabel('top hight',Dialog)
-        self.label_th.setGeometry(QtCore.QRect(10, 38, 100, 22))
+        self.label_th.setGeometry(QtCore.QRect(10, 10, 100, 22))
+        self.label_th.setStyleSheet("color: gray;")
         self.le_th = QtGui.QLineEdit(Dialog)
-        self.le_th.setGeometry(QtCore.QRect(140, 35, 100, 20))
+        self.le_th.setGeometry(QtCore.QRect(130, 10, 100, 20))
         self.le_th.setAlignment(QtCore.Qt.AlignCenter)
         
         #bottom hight
         self.label_bh = QtGui.QLabel('bottom hight',Dialog)
-        self.label_bh.setGeometry(QtCore.QRect(10, 63, 100, 22))
+        self.label_bh.setGeometry(QtCore.QRect(10, 35, 100, 22))
+        self.label_bh.setStyleSheet("color: gray;")
         self.le_bh = QtGui.QLineEdit(Dialog)
-        self.le_bh.setGeometry(QtCore.QRect(140, 60, 100, 20))
+        self.le_bh.setGeometry(QtCore.QRect(130, 35, 100, 20))
         self.le_bh.setAlignment(QtCore.Qt.AlignCenter)
 
         #post dia
         self.label_dia = QtGui.QLabel('post dia',Dialog)
-        self.label_dia.setGeometry(QtCore.QRect(10, 88, 100, 22))
+        self.label_dia.setGeometry(QtCore.QRect(10, 60, 100, 22))
+        self.label_dia.setStyleSheet("color: gray;")
         self.le_dia = QtGui.QLineEdit(Dialog)
-        self.le_dia.setGeometry(QtCore.QRect(140, 85, 100, 20))
+        self.le_dia.setGeometry(QtCore.QRect(130, 60, 100, 20))
         self.le_dia.setAlignment(QtCore.Qt.AlignCenter)
 
         #weirHight
         self.label_h0 = QtGui.QLabel('weirHight',Dialog)
-        self.label_h0.setGeometry(QtCore.QRect(10, 113, 100, 22))
+        self.label_h0.setGeometry(QtCore.QRect(10, 85, 100, 22))
+        self.label_h0.setStyleSheet("color: gray;")
         self.le_h0 = QtGui.QLineEdit(Dialog)
-        self.le_h0.setGeometry(QtCore.QRect(140, 110, 100, 20))
+        self.le_h0.setGeometry(QtCore.QRect(130, 85, 100, 20))
         self.le_h0.setAlignment(QtCore.Qt.AlignCenter)
 
         #作成
         self.pushButton = QtGui.QPushButton('create',Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(50, 135, 100, 22))
+        self.pushButton.setGeometry(QtCore.QRect(45, 110, 100, 22))
         #更新
         self.pushButton2 = QtGui.QPushButton('update',Dialog)
-        self.pushButton2.setGeometry(QtCore.QRect(140, 135, 60, 22))
+        self.pushButton2.setGeometry(QtCore.QRect(140, 110, 60, 22))
         #importData
         self.pushButton3 = QtGui.QPushButton('Import Data',Dialog)
-        self.pushButton3.setGeometry(QtCore.QRect(50, 160, 150, 22))
+        self.pushButton3.setGeometry(QtCore.QRect(50, 135, 180, 22))
 
         
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL("pressed()"), self.create)
@@ -76,7 +80,7 @@ class Ui_Dialog(object):
         self.retranslateUi(Dialog)
         
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "senterPost", None))
+        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "CenterPost", None))
         
     def read_data(self):
      global spreadsheet
@@ -115,8 +119,13 @@ class Ui_Dialog(object):
          fname='centerPost.FCStd'
          base=os.path.dirname(os.path.abspath(__file__))
          joined_path = os.path.join(base, fname) 
-         Gui.ActiveDocument.mergeProject(joined_path)
-         return
+         try:
+             Gui.ActiveDocument.mergeProject(joined_path)
+         except:
+             doc=App.newDocument()
+             Gui.ActiveDocument.mergeProject(joined_path)
+         App.ActiveDocument.recompute()  
+         Gui.ActiveDocument.ActiveView.fitAll()
 
 class main():
         d = QtGui.QWidget()

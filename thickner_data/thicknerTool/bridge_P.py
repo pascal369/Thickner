@@ -25,8 +25,6 @@ tankDia=['13000','13500','14000','14500','15000','15500','16000','16500','17000'
 katakou=['40x40x3','40x40x5','50x50x4','50x50x6','65x65x6','65x65x8','75x75x6','75x75x9',
          '75x75x12','90x90x7','100x100x10','100x100x13']
 class Ui_Dialog(object):
-    
-
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(300, 150)
@@ -35,12 +33,16 @@ class Ui_Dialog(object):
         #tankDia
         self.label_D = QtGui.QLabel('tankDia',Dialog)
         self.label_D.setGeometry(QtCore.QRect(10, 13, 100, 22))
+        self.label_D.setStyleSheet("color: gray;")
+        self.label_D.setStyleSheet("color: gray;")
         self.comboBox_D = QtGui.QComboBox(Dialog)
         self.comboBox_D.setGeometry(QtCore.QRect(140, 10, 100, 22))
         
         #hight
         self.label_h0 = QtGui.QLabel('hight',Dialog)
         self.label_h0.setGeometry(QtCore.QRect(10, 38, 100, 22))
+        self.label_h0.setStyleSheet("color: gray;")
+        self.label_h0.setStyleSheet("color: gray;")
         self.le_h0 = QtGui.QLineEdit('300',Dialog)
         self.le_h0.setGeometry(QtCore.QRect(140, 35, 100, 20))
         self.le_h0.setAlignment(QtCore.Qt.AlignCenter)
@@ -48,6 +50,8 @@ class Ui_Dialog(object):
        #no of beam
         self.label_n = QtGui.QLabel('no of beam',Dialog)
         self.label_n.setGeometry(QtCore.QRect(10, 63, 100, 22))
+        self.label_n.setStyleSheet("color: gray;")
+        self.label_n.setStyleSheet("color: gray;")
         self.le_n0 = QtGui.QLineEdit('8',Dialog)
         self.le_n0.setGeometry(QtCore.QRect(140, 60, 100, 20))
         self.le_n0.setAlignment(QtCore.Qt.AlignCenter) 
@@ -60,7 +64,7 @@ class Ui_Dialog(object):
         self.pushButton2.setGeometry(QtCore.QRect(140, 85, 60, 22))
         #importData
         self.pushButton3 = QtGui.QPushButton('Import Data',Dialog)
-        self.pushButton3.setGeometry(QtCore.QRect(50, 110, 150, 22))
+        self.pushButton3.setGeometry(QtCore.QRect(50, 110, 180, 22))
         
         self.comboBox_D.addItems(tankDia)
         
@@ -71,7 +75,7 @@ class Ui_Dialog(object):
         self.retranslateUi(Dialog)
         
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "feedWell", None))
+        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Bridge", None))
         
     def read_data(self):
          #return
@@ -107,8 +111,13 @@ class Ui_Dialog(object):
          fname='bridge_P.FCStd'
          base=os.path.dirname(os.path.abspath(__file__))
          joined_path = os.path.join(base, fname) 
-         Gui.ActiveDocument.mergeProject(joined_path)
-         return
+         try:
+             Gui.ActiveDocument.mergeProject(joined_path)
+         except:
+             doc=App.newDocument()
+             Gui.ActiveDocument.mergeProject(joined_path)
+         App.ActiveDocument.recompute()  
+         Gui.ActiveDocument.ActiveView.fitAll()
 
 class main():
         d = QtGui.QWidget()
